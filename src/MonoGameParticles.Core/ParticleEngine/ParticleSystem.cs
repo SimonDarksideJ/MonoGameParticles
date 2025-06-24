@@ -235,7 +235,7 @@ namespace MonoGameParticles
             // the effect with parameters that are specific to this particular
             // particle system. By cloning the effect, we prevent one particle system
             // from stomping over the parameter settings of another.
-            
+
             particleEffect = effect.Clone();
 
             EffectParameterCollection parameters = particleEffect.Parameters;
@@ -256,10 +256,10 @@ namespace MonoGameParticles
 
             parameters["RotateSpeed"].SetValue(
                 new Vector2(settings.MinRotateSpeed, settings.MaxRotateSpeed));
-            
+
             parameters["StartSize"].SetValue(
                 new Vector2(settings.MinStartSize, settings.MaxStartSize));
-            
+
             parameters["EndSize"].SetValue(
                 new Vector2(settings.MinEndSize, settings.MaxEndSize));
 
@@ -268,13 +268,9 @@ namespace MonoGameParticles
 
             parameters["Texture"].SetValue(texture);
         }
-
-
         #endregion
 
         #region Update and Draw
-
-
         /// <summary>
         /// Updates the particle system.
         /// </summary>
@@ -362,19 +358,12 @@ namespace MonoGameParticles
             }
         }
 
-        
         /// <summary>
         /// Draws the particle system.
         /// </summary>
         public override void Draw(GameTime gameTime)
         {
             GraphicsDevice device = GraphicsDevice;
-
-            // Restore the vertex buffer contents if the graphics device was lost.
-            if (vertexBuffer.IsContentLost)
-            {
-                vertexBuffer.SetData(particles);
-            }
 
             // If there are any particles waiting in the newly added queue,
             // we'd better upload them to the GPU ready for drawing.
@@ -410,35 +399,37 @@ namespace MonoGameParticles
                     {
                         // If the active particles are all in one consecutive range,
                         // we can draw them all in a single call.
-                        device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0,
-                                                     firstActiveParticle * 4, (firstFreeParticle - firstActiveParticle) * 4,
-                                                     firstActiveParticle * 6, (firstFreeParticle - firstActiveParticle) * 2);
+                        device.DrawIndexedPrimitives(PrimitiveType.TriangleList,
+                                                     firstActiveParticle * 4,
+                                                     firstActiveParticle * 6,
+                                                     (firstFreeParticle - firstActiveParticle) * 2);
                     }
                     else
                     {
                         // If the active particle range wraps past the end of the queue
                         // back to the start, we must split them over two draw calls.
-                        device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0,
-                                                     firstActiveParticle * 4, (settings.MaxParticles - firstActiveParticle) * 4,
-                                                     firstActiveParticle * 6, (settings.MaxParticles - firstActiveParticle) * 2);
+                        device.DrawIndexedPrimitives(PrimitiveType.TriangleList,
+                                                     firstActiveParticle * 4,
+                                                     firstActiveParticle * 6,
+                                                     (settings.MaxParticles - firstActiveParticle) * 2);
 
                         if (firstFreeParticle > 0)
                         {
-                            device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0,
-                                                         0, firstFreeParticle * 4,
-                                                         0, firstFreeParticle * 2);
+                            device.DrawIndexedPrimitives(PrimitiveType.TriangleList,
+                                                         0,
+                                                         0,
+                                                         firstFreeParticle * 2);
                         }
                     }
                 }
 
-                // Reset some of the renderstates that we changed,
+                // Reset some of the render states that we changed,
                 // so as not to mess up any other subsequent drawing.
                 device.DepthStencilState = DepthStencilState.Default;
             }
 
             drawCounter++;
         }
-
 
         /// <summary>
         /// Helper for uploading new particles from our managed
@@ -477,13 +468,9 @@ namespace MonoGameParticles
             // Move the particles we just uploaded from the new to the active queue.
             firstNewParticle = firstFreeParticle;
         }
-
-
         #endregion
 
         #region Public Methods
-
-
         /// <summary>
         /// Sets the camera view and projection matrices
         /// that will be used to draw this particle system.
@@ -493,7 +480,6 @@ namespace MonoGameParticles
             effectViewParameter.SetValue(view);
             effectProjectionParameter.SetValue(projection);
         }
-
 
         /// <summary>
         /// Adds a new particle to the system.

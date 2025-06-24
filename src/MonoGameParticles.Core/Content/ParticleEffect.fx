@@ -42,9 +42,9 @@ float2 EndSize;
 
 
 // Particle texture and sampler.
-texture Texture;
+texture2D Texture;
 
-sampler Sampler = sampler_state
+sampler2D Sampler = sampler_state
 {
     Texture = (Texture);
     
@@ -61,8 +61,8 @@ sampler Sampler = sampler_state
 // along with some random values that affect its size and rotation.
 struct VertexShaderInput 
 { 
-    float2 Corner : SV_POSITION0; 
-    float4 Position : SV_POSITION1; 
+    float2 Corner : POSITION0;
+    float4 Position : POSITION1; 
     float3 Velocity : NORMAL0; 
     float4 Random : COLOR0; 
     float Time : TEXCOORD0; 
