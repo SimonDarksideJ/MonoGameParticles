@@ -61,7 +61,7 @@ sampler2D Sampler = sampler_state
 // along with some random values that affect its size and rotation.
 struct VertexShaderInput 
 { 
-    float2 Corner : POSITION0;
+    int2 Corner : POSITION0;
     float4 Position : POSITION1; 
     float3 Velocity : NORMAL0; 
     float4 Random : COLOR0; 
